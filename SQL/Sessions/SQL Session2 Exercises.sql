@@ -1,3 +1,7 @@
+-- note that i am only seeing 1000 records in the thable cant see the new entries there is an option to fix that in mysql workbench
+
+
+
 -- DML
 -- 1) Changing Data Types for Date Columns:
  
