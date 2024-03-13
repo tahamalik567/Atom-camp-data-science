@@ -148,3 +148,63 @@ select * from billing;
 -- and the feedback text includes ‘outage’ or ‘down’.
 select  * from feedback
  where feedback_text like "%outage%" or feedback_text like "%down%";
+ 
+ 
+ -- 6. Exercise: Classify each customer as ‘High Value’ 
+-- if they have a total amount due greater than $500, or ‘Standard Value’ if not.
+select * from billing;
+
+select *,
+case
+	when amount_due > 500 Then "High Value"
+	Else "Standard Value"
+end as value_category
+from billing;
+
+-- 7. Exercise: Mark each feedback entry as ‘Urgent’ if the rating is 1 
+-- and the feedback text includes ‘outage’ or ‘down’.
+select  * from feedback
+where feedback_text like "%outage%" or feedback_text like "%down%";
+
+select *,
+case
+	when (rating=1) and (feedback_text like "%outage%" or feedback_text like "%down%") then "urgent"
+    Else "Normal"
+end Urgent_status
+from feedback;
+
+
+-- 8. Exercise: In billing, create a flag for each bill that is ‘Late’ 
+-- if the payment_date is after the due_date, ‘On-Time’ if it’s the same, and ‘Early’ if before.
+select * from billing;
+
+select *,
+case
+	When payment_date > due_date then "Late"
+    When payment_date = due_date then "On-Time"
+    When payment_date < due_date then "Early"
+end as Bill_Flag
+from billing;
+
+
+-- Permanently Add Conditional Column
+-- 1. Add column to your table
+-- will create bill_flag column in billing table
+ALTER TABLE billing
+ADD Column Bill_Flag varchar(10);
+
+select * from billing;
+-- 2. update the values using case statements
+
+set sql_safe_updates = 0;
+
+update billing
+set Bill_Flag = 
+case
+	When payment_date > due_date then "Late"
+    When payment_date = due_date then "On-Time"
+    When payment_date < due_date then "Early"
+end;
+
+
+select * from billing;
